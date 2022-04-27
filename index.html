@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo</title>
+    <link rel="stylesheet" href="../ThiThucHanhDemo/CSS/bootstrap.min.css">
+    <script src="../ThiThucHanhDemo/JS/jquery-3.6.0.min.js"></script>
+    <script src="../ThiThucHanhDemo/JS/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var i = 1; // Khởi tạo số thứ tự
+            // Viết code vào
+            $("#btn2").click(function() {
+                $("#myModal").modal();
+            });
+
+            function kiemTraTen() {
+                var i = 1;
+                let mauKT = /^([A-Z]{1}[a-z]+)((\s{1}[A-Z]{1}[a-z]+){1,})$/;
+                if ($("#Name").val() == "") {
+                    $("#tbName").html("không để trống");
+                    return false;
+                }
+                if (!mauKT.test($("#Name").val())) {
+                    $("#tbName").html("Mỗi ký tự đầu viết hoa không sử dụng số, không để khoảng trắng ở ký tự đầu");
+                    return false;
+                }
+                $("#tbName").html("*");
+                return true;
+            }
+            $("#Name").blur(kiemTraTen);
+
+            function kiemTraSoAo() {
+                var mauKT = /^\d*$/;
+                if ($("#Ao").val() == "") {
+                    $("#tbAo").html("không để trống");
+                    return false;
+                }
+                if (!mauKT.test($("#Ao").val())) {
+
+                    $("#tbAo").html("Dùng số từ 1 đến 100, không để khoảng trắng ở ký tự đầu ");
+                    return true;
+
+                } else {
+                    var soAo = $("#Ao").val();
+                    if ((soAo < 1 || soAo > 100)) {
+                        $("#tbAo").html("Số áo từ 1 đến 100");
+                        return false;
+                    } else {
+                        $("#tbAo").html("*");
+                        return true;
+                    }
+
+                }
+
+            }
+            $("#Ao").blur(kiemTraSoAo);
+
+            function kiemtraclb() {
+                var mauKT = /^([A-Z]{1}[a-z]+)((\s{1}[A-Z]{1}[a-z]+){1,})(\s{1}[1,9]+)$/;
+                if ($("#txtCLB").val() == "") {
+                    $("#tbCLB").html("không để trống");
+                    return false;
+                }
+                if (!mauKT.test($("#txtCLB").val())) {
+
+                    $("#tbCLB").html("Dùng chữ hoa đầu từ và số (ví dụ: Ha Noi 1)");
+                    return false;
+
+                }
+                $("#tbCLB").html("*");
+                return true;
+            }
+            $("#txtCLB").blur(kiemtraclb);
+
+            function kiemTraNTT() {
+                if ($("#NTT").val() == "") {
+                    $("#tbNTT").html("không để trống");
+                    return false;
+                }
+                var today = new Date();
+                var ntt = new Date($("#NTT").val());
+                today = today.setDate(today.getDate() + 7);
+                if (today > ntt) {
+                    $("#tbNTT").html("Phải sau ngày hiện tại 7 ngày");
+                    return false;
+                }
+                $("#tbNTT").html("*");
+                return true;
+            }
+            $("#NTT").blur(kiemTraNTT);
+
+            function kiemTraSDT() {
+                var mauKT = /^0\d{3}-\d{3}-\d{3}$/;
+                if ($("#SDT").val() == "") {
+                    $("#tbSDT").html("không để trống");
+                    return false;
+                }
+                if (!mauKT.test($("#SDT").val())) {
+                    $("#tbSDT").html("Theo dạng 0XXX-XXX-XXX trong đó X là số, không để khoảng trắng ở ký tự đầu");
+                    return false;
+                }
+                $("#tbSDT").html("*");
+                return true;
+            }
+            $("#SDT").blur(kiemTraSDT);
+
+            function kiemtraADD() {
+                if ($("#ADD").val() == "") {
+                    $("#tbADD").html("không để trống");
+                    return false;
+                }
+                $("#tbADD").html("*");
+                return true;
+            }
+            $("#ADD").blur(kiemtraADD);
+            $("#Save").click(function() {
+                if (kiemTraTen() == true && kiemtraclb() == true && kiemTraNTT() == true && kiemTraSDT() == true && kiemTraSoAo() == true && kiemtraADD() == true) {
+                    row = "<tr>";
+                    row += "<th>" + (i++) + "</th>";
+                    row += "<th>" + $("#Name").val() + "</th>";
+                    row += "<th>" + $("#Ao").val() + "</th>";
+                    row += "<th>" + $("#txtCLB").val() + "</th>";
+                    row += "<th>" + $("#NTT").val() + "</th>";
+                    row += "<th>" + $("#SDT").val() + "</th>";
+                    row += "<th>" + $("#ADD").val() + "</th>";
+                    $("#danhSach").append(row);
+                    $("#myModal").modal("hide");
+                }
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="col-xs-12">
+            <img src="../ThiThucHanhDemo/HEADER.PNG" width="100%" alt="">
+        </div>
+        <div class="col-xs-12">
+            <a href="#" class="navbar-link" style="margin-right: 20px;" id="btn1">Đăng
+                nhập</a>
+            <a href="#" class="navbar-link" id="btn2">Đăng ký</a>
+            <div class="col-xs-12">
+                <h4 style="text-align: center;">DANH SÁCH ĐỔI TUYỂN VIỆT NAM</h4>
+                <table class="table table-striped" role="table" id="danhSach">
+                    <tr>
+                        <th>STT</th>
+                        <th>Họ tên</th>
+                        <th>Số áo</th>
+                        <th>Câu lạc bộ</th>
+                        <th>Ngày tập trung</th>
+                        <th>Điện thoại</th>
+                        <th>Ảnh đại diện</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <footer>
+            <div class="col-xs-12">
+                <p style="text-align: center;">SVTH:Điểu Phan Quang Dũng Mã sinh viên:20093921 Lớp:DHKHMT16B</p>
+            </div>
+        </footer>
+        <div class="modal fade" role="dialog" id="myModal">
+            <div class="modal-dialog" style="margin-top: 10px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="text-left">THÔNG TIN CÁ NHÂN</h2>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" class="form-horizontal" style="margin-top: 10px;">
+                            <div class="form-row">
+                                <label for="Name" class="control-label col-xs-4 text-right">Họ tên</label>
+                                <input type="text" name="Name" id="Name" class="form-control col-xs-7">
+                            </div>
+                            <div class="form-row">
+                                <span class="text-danger" id="tbName" style="color: red;">*</span>
+                            </div>
+                            <div class="form-row">
+                                <label for="Ao" class="control-label" class="col-xs-4">Số áo</label>
+                                <input type="text" name="Ao" id="Ao" class="form-control" class="col-xs-7">
+                            </div>
+                            <div class="form-row"><span class="text-danger" id="tbAo" style="color: red;">*</span>
+                            </div>
+                            <div class="form-row">
+                                <label for="CLB" class="control-label col-xs-4">Câu lạc bộ</label>
+                                <input type="text" name="CLB" id="txtCLB" class="form-control col-xs-7">
+                            </div>
+                            <div class="form-row"><span class="text-danger" id="tbCLB" style="color: red;">*</span>
+                            </div>
+                            <div class="form-row">
+                                <label for="NTT" class="control-label col-xs-4">Ngày tập trung</label>
+                                <input type="date" name="NTT" id="NTT" class="form-control col-xs-7">
+                            </div>
+                            <div class="form-row"><span class="text-danger" id="tbNTT" style="color: red;">*</span>
+                            </div>
+                            <div class="form-row">
+                                <label for="SDT" class="control-label col-xs-4">Số điện thoại</label>
+                                <input type="text" name="SDT" id="SDT" class="form-control col-xs-7">
+                            </div>
+                            <div class="form-row"><span class="text-danger" id="tbSDT" style="color: red;">*</span>
+                            </div>
+                            <div class="form-row">
+                                <label for="ADD" class="control-label col-xs-3">Ảnh đại diện</label>
+                                <input type="file" name="ADD" id="ADD" class="form-control">
+                            </div>
+                            <div class="form-row"><span class="text-danger" id="tbADD" style="color: red;">*</span>
+                            </div>
+                            <div class="form-row"><button class="btn btn-sucess btn-group-justified" id="Save" type="button" style="color: white;background-color: green;width: 100%;">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
